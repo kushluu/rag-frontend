@@ -1,36 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { post } from "../api/http";
+import { useAuth } from "../context/AuthContext";
 import "./Register.css";
 
 export default function Register() {
   const navigate = useNavigate();
+  const { checkAuth } = useAuth();
 
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!email) setEmailError("");
+    else if (!email.includes("@")) setEmailError("Invalid email format");
+    else setEmailError("");
+  }, [email]);
+
+  const isFormValid = username && email && password && !emailError;
 
   const handleRegister = async (e: any) => {
     e.preventDefault();
+    setError("");
+
+    if (!isFormValid) return;
+
+    setLoading(true);
 
     const result = await post("accounts/register/", {
-      username,
-      email,
+      username: username.trim(),
+      email: email.trim(),
       password,
     });
 
     if (result.success) {
-      navigate("/chat");
+      await checkAuth();
+      navigate("/chat", { replace: true });
     } else {
-      alert(result.error);
+      if (result.status === 400) {
+        setError("User already exists or invalid input");
+      } else {
+        setError("Something went wrong. Try again.");
+      }
     }
+
+    setLoading(false);
   };
 
   return (
-    <div className="register-container">
-      <div className="register-card">
+    <div className="auth-container">
+      <div className="auth-card">
         <h2>Create Account</h2>
         <p className="subtitle">Start your AI chat experience</p>
+
+        {error && <div className="error">{error}</div>}
 
         <form onSubmit={handleRegister}>
           <input
@@ -38,31 +68,44 @@ export default function Register() {
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
+            disabled={loading}
+            autoFocus
           />
 
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
+            disabled={loading}
           />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          {emailError && <div className="field-error">{emailError}</div>}
 
-          <button type="submit">Register</button>
+          <div className="input-group">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
+            />
+            <span
+              className="toggle-eye"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </span>
+          </div>
+
+          <button type="submit" disabled={!isFormValid || loading}>
+            {loading ? "Creating account..." : "Register"}
+          </button>
         </form>
 
-        <p className="login-link">
+        <p className="switch-link">
           Already have an account?{" "}
-          <span onClick={() => navigate("/")}>Login</span>
+          <span onClick={() => navigate("/", { replace: true })}>Login</span>
         </p>
       </div>
     </div>

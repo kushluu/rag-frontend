@@ -1,16 +1,19 @@
-import { api } from "./client";
+import { get, post } from "./http";
+
+type User = {
+  id: number;
+  username: string;
+  email: string;
+};
 
 export async function getCurrentUser() {
-  try {
-    const res = await api.get("accounts/me");
+  return get<User>("accounts/me/");
+}
 
-    return {
-      success: true,
-      data: res.data,
-    };
-  } catch (error) {
-    return {
-      success: false,
-    };
-  }
+export async function refreshAccessToken() {
+  return post<null>("accounts/refresh/", {});
+}
+
+export async function logoutUser() {
+  return post<null>("accounts/logout/", {});
 }

@@ -13,7 +13,6 @@ export async function post<T>(
 ): Promise<ApiResponse<T>> {
   try {
     const response = await api.post(url, payload);
-    console.log(response)
     return {
       success: true,
       data: response.data,
@@ -35,7 +34,6 @@ export async function post<T>(
 export async function get<T>(url: string): Promise<ApiResponse<T>> {
   try {
     const response = await api.get(url);
-    console.log(response);
     return {
       success: true,
       data: response.data,
@@ -60,7 +58,6 @@ export async function put<T>(
 ): Promise<ApiResponse<T>> {
   try {
     const response = await api.put(url, payload);
-    console.log(response);
     return {
       success: true,
       data: response.data,
@@ -82,7 +79,6 @@ export async function put<T>(
 export async function remove<T>(url: string): Promise<ApiResponse<T>> {
   try {
     const response = await api.delete(url);
-    console.log(response);
     return {
       success: true,
       data: response.data,

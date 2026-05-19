@@ -1,72 +1,119 @@
-.register-container {
-  height: 100vh;
+.auth-container {
+  min-height: 100vh; /* 🔥 changed */
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #1e293b, #0f172a);
-  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  padding: 16px;
+  box-sizing: border-box; /* 🔥 important */
 }
 
-.register-card {
+.auth-card {
   background: white;
-  padding: 30px;
-  border-radius: 12px;
-  width: 350px;
-  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 32px;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 
-.register-card h2 {
+.auth-card h2 {
   margin-bottom: 5px;
 }
 
 .subtitle {
-  color: gray;
   font-size: 14px;
+  color: #64748b;
   margin-bottom: 20px;
 }
 
-.register-card form {
-  display: flex;
-  flex-direction: column;
-}
-
-.register-card input {
-  padding: 10px;
+.auth-card input {
+  width: 100%;
+  padding: 12px;
   margin-bottom: 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
   font-size: 14px;
+  transition: 0.2s;
+  box-sizing: border-box; 
 }
 
-.register-card input:focus {
+.auth-card input:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 4px rgba(37, 99, 235, 0.3);
+  border-color: #6366f1;
 }
 
-.register-card button {
-  padding: 10px;
-  background: #2563eb;
+
+
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  background: #6366f1;
   color: white;
   border: none;
-  border-radius: 6px;
-  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
   transition: 0.2s;
 }
 
-.register-card button:hover {
-  background: #1d4ed8;
+.auth-card button:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
 }
 
-.login-link {
+.auth-card button:disabled {
+  background: #a5b4fc;
+  cursor: not-allowed;
+}
+
+.error {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.field-error {
+  font-size: 12px;
+  color: #dc2626;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.switch-link {
   margin-top: 15px;
   font-size: 14px;
 }
 
-.login-link span {
-  color: #2563eb;
+.switch-link span {
+  color: #6366f1;
   cursor: pointer;
   font-weight: bold;
+}
+
+.input-group {
+  position: relative;
+  width: 100%;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  padding-right: 45px; /* reserve space for eye */
+  box-sizing: border-box; /* 🔥 important */
+
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 12px;
+  top: 36%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  pointer-events: auto;
 }
